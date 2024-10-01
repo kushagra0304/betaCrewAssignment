@@ -1,3 +1,8 @@
+// =================================================================
+
+// No packets are sent by the server on first fetch.
+
+// =================================================================
 require('dotenv').config();
 const readline = require('readline');
 const fetch = require('./fetchPackets.js'); // Assuming this fetches the data you need

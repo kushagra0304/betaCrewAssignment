@@ -1,7 +1,35 @@
+// =================================================================
+
+// No packets are sent by the server on first fetch.
+
+// =================================================================
 const net = require('net');
 
 let receivedPackets = [];
 let missedPackets = [];
+
+const validatePackets = (packets) => {
+    let isValid = true;
+    const invalidPackets = [];
+
+    for (let i = 0; i < packets.length; i++) {
+        const packet = packets[i];
+
+        // Check for dummy packets or invalid data (e.g., NaN values)
+        if (!packet.symbol || !packet.buySellIndicator || isNaN(packet.quantity) || isNaN(packet.price) || isNaN(packet.sequence)) {
+            isValid = false;
+            invalidPackets.push(i + 1);  // Log the sequence number of the invalid packet
+        }
+
+        // Check for sequence correctness
+        if (packet.sequence !== i + 1) {
+            isValid = false;
+            invalidPackets.push(i + 1);
+        }
+    }
+
+    return { isValid, invalidPackets };
+}
 
 const fetch = async () => {
     try {
@@ -9,6 +37,13 @@ const fetch = async () => {
 
         if (missedPackets.length > 0) {
             await fetchMissingPackets();
+        }
+
+        const validationResult = validatePackets(receivedPackets);
+        if (!validationResult.isValid) {
+            throw new Error('Invalid packets detected:', validationResult.invalidPackets);
+        } else {
+            console.log('All packets are valid');
         }
 
         return receivedPackets;
