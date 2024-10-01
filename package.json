@@ -1,0 +1,17 @@
+{
+  "name": "betacrewassignment",
+  "version": "1.0.0",
+  "description": "Node.js Mage assigment by BetaCrew",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "node ./betacrew_exchange_server/main.js",
+    "start": "node ./src/index.js"
+
+  },
+  "author": "Kushagra agarwal",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
+}
