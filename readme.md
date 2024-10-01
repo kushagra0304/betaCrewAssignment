@@ -37,6 +37,10 @@ npm start
 npm run server
 ```
 
+## Output
+
+The output json file is saved in the src/output directory.
+
 ## Scripts
 
 This project includes the following scripts:
